@@ -1,15 +1,15 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MY39 v2.3 (已调整格式)</title>
-    <!-- 引入 Google Fonts -->
+    <title>MY39</title>
+    <!-- Import Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
-    <!-- 引入 html2canvas 库用于生成图片 -->
+    <!-- Import html2canvas library for image generation -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
-        /* --- 基础样式与颜色变量 --- */
+        /* --- Base Styles & Color Variables --- */
         :root {
             --primary-color: #a78bfa; --secondary-color: #f7b7a3; --bg-color: #fcf8f7;
             --card-bg: #ffffff; --text-color: #4a4a4a; --border-color: #e0e0e0;
@@ -29,12 +29,12 @@
         hr { border: none; border-top: 1px dashed var(--border-color); margin: 40px 0; }
         .hidden { display: none !important; }
         
-        /* --- 生日设置与显示 --- */
+        /* --- Birthday Setup & Display --- */
         #birthday-display { text-align: center; margin-bottom: 20px; color: #6c757d; }
         #birthday-display a { color: var(--primary-color); cursor: pointer; text-decoration: underline; }
         .birthday-setup { background-color: #fff9e6; border: 1px solid #ffe0b2; padding: 18px; border-radius: 10px; margin-bottom: 25px; text-align: center; }
 
-        /* --- 表单与输入元素 --- */
+        /* --- Form & Input Elements --- */
         #diary-form fieldset { border: 1px solid var(--border-color); padding: 25px; border-radius: 10px; margin-bottom: 25px; }
         #diary-form legend { font-weight: 700; padding: 0 15px; font-size: 1.3em; letter-spacing: 0.03em; }
         .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 25px; }
@@ -48,7 +48,7 @@
         textarea { min-height: 100px; resize: vertical; }
         .full-width { grid-column: 1 / -1; }
         
-        /* --- 特定模块样式 --- */
+        /* --- Specific Module Styles --- */
         #mood-custom { margin-top: 10px; }
         .sleep-quality-group { display: flex; gap: 10px; margin-bottom: 15px; flex-wrap: wrap; }
         .sleep-quality-btn { cursor: pointer; padding: 8px 12px; border: 1px solid var(--border-color); border-radius: 8px; transition: all 0.2s ease; user-select: none; }
@@ -58,7 +58,7 @@
         #sleep-duration-display { font-weight: bold; color: var(--primary-color); }
         
         .exercise-item { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
-        .exercise-item label { margin-bottom: 0; flex-shrink: 0; width: 60px; }
+        .exercise-item label { margin-bottom: 0; flex-shrink: 0; width: 110px; } /* Adjusted width for longer text */
         .exercise-item input[type="checkbox"] { width: auto; }
         .exercise-duration { font-size: 0.9em; padding: 8px; }
         .exercise-other-group { display: flex; align-items: center; gap: 10px; margin-top: 10px; }
@@ -67,24 +67,24 @@
         .sub-group label { font-size: 0.9em; color: #555; }
         .sub-group textarea { min-height: 60px; }
 
-        /* --- 按钮 (已按要求调整) --- */
+        /* --- Buttons --- */
         .button-group { display: flex; gap: 15px; justify-content: center; margin-top: 30px; }
         button { padding: 12px 25px; border: none; border-radius: 8px; font-size: 1.05rem; cursor: pointer; transition: all 0.3s ease; font-weight: 600; }
         button:hover { transform: translateY(-2px); box-shadow: var(--hover-shadow); }
 
-        /* 3. Save/Refresh 使用温和颜色 */
-        .btn-save { background-color: #81c784; color: white; } /* 温和的绿色 */
+        /* Save/New Entry buttons with gentle colors */
+        .btn-save { background-color: #81c784; color: white; } /* Gentle green */
         .btn-save:hover { background-color: #66bb6a; }
-        .btn-new { background-color: #4db6ac; color: white; } /* 温和的青色 */
+        .btn-new { background-color: #4db6ac; color: white; } /* Gentle cyan */
         .btn-new:hover { background-color: #26a69a; }
         
-        /* 1. 导出按钮使用灰色 */
-        .btn-export { background-color: #9e9e9e; color: white; } /* 灰色 */
+        /* Export buttons use gray */
+        .btn-export { background-color: #9e9e9e; color: white; }
         .btn-export:hover { background-color: #8c8c8c; }
         
         .export-button-group { display: flex; justify-content: center; gap: 15px; margin-bottom: 25px; }
         
-        /* --- 日记列表 (已按要求调整) --- */
+        /* --- Diary List --- */
         #entries-list { margin-top: 40px; }
         .entry-card {
             background-color: var(--card-bg); border: 1px solid var(--border-color); border-left: 6px solid var(--primary-color);
@@ -98,29 +98,21 @@
         .entry-info span { margin-left: 15px; color: #6c757d; }
         .entry-actions { display: flex; gap: 10px; margin-top: 10px; }
         
-        /* 2. View/Edit/Delete 使用不同颜色 */
+        /* View/Edit/Delete buttons with different colors */
         .entry-actions button {
-            padding: 8px 15px;
-            font-size: 0.95rem;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            font-weight: 600;
-            cursor: pointer;
+            padding: 8px 15px; font-size: 0.95rem; color: white; border: none;
+            border-radius: 5px; font-weight: 600; cursor: pointer;
             transition: background-color 0.2s ease, transform 0.2s ease;
         }
-        .entry-actions button:hover {
-            transform: translateY(-1px);
-        }
+        .entry-actions button:hover { transform: translateY(-1px); }
         .entry-actions .btn-details { background-color: #64b5f6; } /* View - Blue */
         .entry-actions .btn-edit    { background-color: #ffb74d; } /* Edit - Orange */
         .entry-actions .btn-delete  { background-color: #e57373; } /* Delete - Red */
-
         .entry-actions .btn-details:hover { background-color: #42a5f5; }
         .entry-actions .btn-edit:hover    { background-color: #ffa726; }
         .entry-actions .btn-delete:hover  { background-color: #ef5350; }
 
-        /* --- 弹窗 (Modal) --- */
+        /* --- Modal --- */
         .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.4); }
         .modal-content { background-color: #fefefe; margin: 5% auto; padding: 30px; border-radius: 15px; width: 90%; max-width: 750px; position: relative; box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
         .close-button { color: #aaa; float: right; font-size: 32px; font-weight: normal; cursor: pointer; line-height: 1; }
@@ -131,7 +123,7 @@
         .detail-section ul { padding-left: 20px; white-space: normal; }
         #save-image-btn { background-color: var(--secondary-color); color: white; margin-top: 20px; }
 
-        /* --- 图片导出模板 (隐藏) --- */
+        /* --- Image Export Template (Hidden) --- */
         #image-export-container {
             position: absolute; left: -9999px; top: 0;
             width: 1080px; padding: 60px;
@@ -146,7 +138,7 @@
         #image-export-container .img-section p { font-size: 20px; line-height: 1.6; white-space: pre-wrap; }
         #image-export-container .img-footer { text-align: center; margin-top: 50px; font-size: 16px; color: #999; }
 
-        /* --- 页脚 --- */
+        /* --- Footer --- */
         .footer-note { text-align: center; margin-top: 40px; font-size: 0.85em; color: #999; }
     </style>
 </head>
@@ -156,13 +148,13 @@
         <h1><span>✨</span>MY39</h1>
 
         <div id="birthday-display" class="hidden">
-            39th Birthday: <span id="birthday-text"></span> (<a id="edit-birthday-link">修改</a>)
+            39th Birthday: <span id="birthday-text"></span> (<a id="edit-birthday-link">Edit</a>)
         </div>
 
         <div id="birthday-setup" class="birthday-setup">
-            <label for="birthday"><b>首次记录输入39Y Birthday</b></label>
+            <label for="birthday"><b>Enter your 39th Birthday to start</b></label>
             <input type="date" id="birthday" style="max-width: 220px; margin: 12px auto; display: block;">
-            <button id="save-birthday-btn" class="btn-new" style="padding: 8px 16px; font-size: 0.9em;">确认</button>
+            <button id="save-birthday-btn" class="btn-new" style="padding: 8px 16px; font-size: 0.9em;">Confirm</button>
         </div>
 
         <form id="diary-form">
@@ -174,24 +166,29 @@
                         <label for="date">Date</label>
                         <input type="date" id="date" required>
                     </div>
-   <div class="form-group">
+                    <div class="form-group">
                         <label for="day-of-39">Day</label>
                         <input type="text" id="day-of-39" readonly style="background-color: #f0f0f0; color: #666; text-align: center; font-weight: bold; font-size: 1.2em;">
                     </div>
                     <div class="form-group">
                         <label for="weather">Weather</label>
-                        <input type="text" id="weather" placeholder="Sun Cloud Rain Breeze">
+                        <input type="text" id="weather" placeholder="e.g., Sunny, Cloudy, Rainy">
                     </div>
                     <div class="form-group">
                         <label for="mood">Mood</label>
                         <select id="mood">
-                            <option value="😊 愉悦">😊</option> <option value="😌 平静">😌</option>
-                            <option value="😔 难过">😔</option> <option value="😤 烦躁">😤</option>
-                            <option value="😴 疲惫">😴</option> <option value="✨ 兴奋">✨</option>
-                            <option value="💭 沉思">💭</option> <option value="💖 幸福">💖</option>
-                            <option value="🌱 成长">🌱</option> <option value="custom">自定义</option>
+                            <option value="😊 Happy">😊 Happy</option>
+                            <option value="😌 Calm">😌 Calm</option>
+                            <option value="😔 Sad">😔 Sad</option>
+                            <option value="😤 Irritated">😤 Irritated</option>
+                            <option value="😴 Tired">😴 Tired</option>
+                            <option value="✨ Excited">✨ Excited</option>
+                            <option value="💭 Thoughtful">💭 Thoughtful</option>
+                            <option value="💖 Blissful">💖 Blissful</option>
+                            <option value="🌱 Growing">🌱 Growing</option>
+                            <option value="custom">Custom</option>
                         </select>
-                        <input type="text" id="mood-custom" class="hidden" placeholder="描述你的心情状态">
+                        <input type="text" id="mood-custom" class="hidden" placeholder="Describe your mood">
                     </div>
                 </div>
             </fieldset>
@@ -199,111 +196,112 @@
             <fieldset>
                 <legend>DIARY</legend>
                 <div class="form-grid">
-                    <!-- 睡眠模块 -->
+                    <!-- Sleep Module -->
                     <div class="form-group">
                         <label>SLEEP</label>
                         <div class="sleep-quality-group">
-                            <span class="sleep-quality-btn" data-value="😴 深度睡眠">😴Good</span>
-                            <span class="sleep-quality-btn" data-value="😌 正常睡眠">😌Nice</span>
-                            <span class="sleep-quality-btn" data-value="😐 浅度睡眠">😐Soso</span>
-                            <span class="sleep-quality-btn" data-value="😩 睡眠不佳">😩Bad</span>
+                            <span class="sleep-quality-btn" data-value="😴 Deep Sleep">😴Deep</span>
+                            <span class="sleep-quality-btn" data-value="😌 Normal Sleep">😌Normal</span>
+                            <span class="sleep-quality-btn" data-value="😐 Light Sleep">😐Light</span>
+                            <span class="sleep-quality-btn" data-value="😩 Poor Sleep">😩Poor</span>
                         </div>
                         <div class="sleep-time-group">
-                            <input type="time" id="sleep-start" title="入睡时间">
+                            <input type="time" id="sleep-start" title="Sleep Start Time">
                             <span>-</span>
-                            <input type="time" id="sleep-end" title="醒来时间">
-                            <span id="sleep-duration-display">Total: /</span>
+                            <input type="time" id="sleep-end" title="Wake Up Time">
+                            <span id="sleep-duration-display">Duration: /</span>
                         </div>
                     </div>
 
-                    <!-- 运动模块 -->
+                    <!-- Exercise Module -->
                     <div class="form-group">
-                        <label>SPORT</label>
+                        <label>EXERCISE</label>
                         <div id="exercise-group">
                             <div class="exercise-item">
-                                <input type="checkbox" name="exercise-type" value="骑车" id="ex-bike">
+                                <input type="checkbox" name="exercise-type" value="Biking" id="ex-bike">
                                 <label for="ex-bike">Bike</label>
-                                <input type="number" class="exercise-duration" placeholder="Duration" min="0">
+                                <input type="number" class="exercise-duration" placeholder="Mins" min="0">
                             </div>
                             <div class="exercise-item">
-                                <input type="checkbox" name="exercise-type" value="跑步" id="ex-run">
+                                <input type="checkbox" name="exercise-type" value="Running" id="ex-run">
                                 <label for="ex-run">Run</label>
-                                <input type="number" class="exercise-duration" placeholder="Duration" min="0">
+                                <input type="number" class="exercise-duration" placeholder="Mins" min="0">
                             </div>
                             <div class="exercise-item">
-                                <input type="checkbox" name="exercise-type" value="走路" id="ex-walk">
+                                <input type="checkbox" name="exercise-type" value="Walking" id="ex-walk">
                                 <label for="ex-walk">Walk</label>
-                                <input type="number" class="exercise-duration" placeholder="Duration" min="0">
-    </div>
-                            <div class="exercise-item">
-                                <input type="checkbox" name="exercise-type" value="跳绳" id="ex-rope">
-                                <label for="ex-rope">Jump</label>
-                                <input type="number" class="exercise-duration" placeholder="Duration" min="0">
+                                <input type="number" class="exercise-duration" placeholder="Mins" min="0">
                             </div>
                             <div class="exercise-item">
-                                <input type="checkbox" name="exercise-type" value="瑜伽" id="ex-yoga">
+                                <input type="checkbox" name="exercise-type" value="Rope Skipping" id="ex-rope">
+                                <label for="ex-rope">Skip</label>
+                                <input type="number" class="exercise-duration" placeholder="Mins" min="0">
+                            </div>
+                            <div class="exercise-item">
+                                <input type="checkbox" name="exercise-type" value="Yoga" id="ex-yoga">
                                 <label for="ex-yoga">Yoga</label>
-                                <input type="number" class="exercise-duration" placeholder="Duration" min="0">
+                                <input type="number" class="exercise-duration" placeholder="Mins" min="0">
                             </div>
                             <div class="exercise-other-group">
-                                <input type="text" id="exercise-other-name" placeholder="Else..." style="flex-grow: 1;">
-                                <input type="number" id="exercise-other-duration" placeholder="Duration" min="0" style="width: 120px;">
+                                <input type="text" id="exercise-other-name" placeholder="Other..." style="flex-grow: 1;">
+                                <input type="number" id="exercise-other-duration" placeholder="Mins" min="0" style="width: 120px;">
                             </div>
                         </div>
                     </div>
 
-                    <!-- 精神滋养模块 -->
+                    <!-- Mind & Soul Module -->
                     <div class="form-group full-width">
-                        <label>ENJOY</label>
+                        <label>MIND</label>
                         <div class="sub-group">
-                            <label for="mind-book">📖Book</label>
-                            <textarea id="mind-book" placeholder="Thoughts on books"></textarea>
+                            <label for="mind-book">📖 Read</label>
+                            <textarea id="mind-book" placeholder="Books"></textarea>
                         </div>
                         <div class="sub-group">
-                            <label for="mind-podcast">🎧Podcast</label>
-                            <textarea id="mind-podcast" placeholder="Moves and likes"></textarea>
+                            <label for="mind-podcast">🎧Listen</label>
+                            <textarea id="mind-podcast" placeholder="Podcasts"></textarea>
                         </div>
                         <div class="sub-group">
-                            <label for="mind-media">🎬Music/XHS</label>
-                            <textarea id="mind-media" placeholder="Songs and videos"></textarea>
+                            <label for="mind-media">🎬Media</label>
+                            <textarea id="mind-media" placeholder="Music video"></textarea>
                         </div>
                         <div class="sub-group">
-                            <label for="mind-creation">✨Creation</label>
-                            <textarea id="mind-creation" placeholder="Ideas and pieces"></textarea>
+                            <label for="mind-creation">✨Create</label>
+                            <textarea id="mind-creation" placeholder="Ideas works"></textarea>
                         </div>
                     </div>
 
-                    <!-- 美食模块 -->
+                    <!-- Food & Drink Module -->
                     <div class="form-group full-width">
                         <label>FOOD</label>
                         <div class="sub-group">
                             <label for="food-main">🍚Meals</label>
-                            <textarea id="food-main" placeholder="Brunch and Dinner"></textarea>
+                            <textarea id="food-main" placeholder="Breakfast Lunch Dinner"></textarea>
                         </div>
                         <div class="sub-group">
                             <label for="food-snack">🍰Snacks</label>
-                            <textarea id="food-snack" placeholder="Junk food"></textarea>
+                            <textarea id="food-snack" placeholder="Fast Junks"></textarea>
                         </div>
                          <div class="sub-group">
                             <label for="food-drink">🍹Drinks</label>
-                            <textarea id="food-drink" placeholder="Coffee or Tea"></textarea>
+                            <textarea id="food-drink" placeholder="Coffee or tea"></textarea>
                         </div>
                     </div>
 
-                    <!-- KID and WORK swapped -->
-                    <div class="form-group">
+                    <!-- === MODIFICATION START === -->
+                    <div class="form-group full-width">
                         <label for="kids">KID</label>
-                        <textarea id="kids" placeholder="Bitter and Sweet"></textarea>
+                        <textarea id="kids" placeholder="Bitters and sweets"></textarea>
                     </div>
                     
-                    <div class="form-group full-width">
+                    <div class="form-group">
                         <label for="work">MONEY</label>
-                        <textarea id="work" placeholder="BULLSHITJOB"></textarea>
+                        <textarea id="work" placeholder="Breads"></textarea>
                     </div>
+                    <!-- === MODIFICATION END === -->
 
                     <div class="form-group full-width">
                         <label for="notes">MOMENT</label>
-    <textarea id="notes" placeholder="Smiles"></textarea>
+                        <textarea id="notes" placeholder="Smile,joys"></textarea>
                     </div>
                 </div>
             </fieldset>
@@ -316,7 +314,7 @@
 
         <hr>
 
-        <h2>TIMELINE</h2>
+        <h2>TIMELINES</h2>
         <div class="export-button-group">
             <button id="export-txt-btn" class="btn-export">Export.txt</button>
             <button id="export-csv-btn" class="btn-export">Export.csv</button>
@@ -324,26 +322,26 @@
         <div id="entries-list"></div>
     </div>
 
-    <!-- 详情弹窗 -->
+    <!-- Details Modal -->
     <div id="details-modal" class="modal">
         <div class="modal-content">
             <span class="close-button">&times;</span>
             <div id="modal-body"></div>
-            <button id="save-image-btn">分享</button>
+            <button id="save-image-btn">Share as Image</button>
         </div>
     </div>
 
-    <!-- 用于生成图片的隐藏容器 -->
+    <!-- Hidden container for image generation -->
     <div id="image-export-container"></div>
     
     <footer class="footer-note">
-        <p><strong>数据安全提示</strong>：所有日记数据仅保存在您当前的浏览器中。直接打开HTML文件使用时，请勿移动文件位置，否则可能导致数据无法读取。</p>
-        <p>清除浏览器缓存、使用无痕模式或更换设备将导致数据丢失。建议您定期使用“导出”功能备份您的珍贵记录。</p>
+        <p><strong>Data Security Notice</strong>: All diary data is stored locally in your current browser. If you are using this as a local HTML file, do not move its location, as this may cause data to become unreadable.</p>
+        <p>Clearing your browser's cache, using incognito mode, or switching devices will result in data loss. It is highly recommended to periodically use the "Export" function to back up your precious records.</p>
     </footer>
 
     <script>
     document.addEventListener('DOMContentLoaded', () => {
-        // --- DOM 元素获取 ---
+        // --- DOM Element Selection ---
         const form = document.getElementById('diary-form');
         const entryIdInput = document.getElementById('entry-id');
         const dateInput = document.getElementById('date');
@@ -389,12 +387,12 @@
         const BIRTHDAY_KEY = 'my39Birthday_v2';
         let currentDetailEntryId = null;
 
-        // --- 初始化 ---
+        // --- Initialization ---
         updateBirthdayUI();
         setTodaysDate();
         renderEntries();
 
-        // --- 事件监听 ---
+        // --- Event Listeners ---
         form.addEventListener('submit', saveEntry);
         newEntryBtn.addEventListener('click', clearForm);
         entriesList.addEventListener('click', handleEntryAction);
@@ -422,7 +420,7 @@
             if (currentDetailEntryId) generateImage(currentDetailEntryId);
         });
 
-        // --- 功能函数 ---
+        // --- Core Functions ---
         function getEntries() { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || []; }
         function saveEntries(entries) { localStorage.setItem(STORAGE_KEY, JSON.stringify(entries)); }
 
@@ -445,7 +443,7 @@
                 localStorage.setItem(BIRTHDAY_KEY, birthdayInput.value);
                 updateBirthdayUI();
             } else {
-                alert('请选择一个日期。');
+                alert('Please select a date.');
             }
         }
 
@@ -467,7 +465,7 @@
             const start = sleepStartInput.value;
             const end = sleepEndInput.value;
             if (!start || !end) {
-                sleepDurationDisplay.textContent = '总睡眠: /';
+                sleepDurationDisplay.textContent = 'Duration: /';
                 return;
             }
             let [startH, startM] = start.split(':').map(Number);
@@ -477,7 +475,7 @@
             let endMinutes = endH * 60 + endM;
             
             let durationMinutes;
-            if (endMinutes < startMinutes) { // 跨天
+            if (endMinutes < startMinutes) { // Across midnight
                 durationMinutes = (24 * 60 - startMinutes) + endMinutes;
             } else {
                 durationMinutes = endMinutes - startMinutes;
@@ -485,7 +483,7 @@
             
             const hours = Math.floor(durationMinutes / 60);
             const minutes = durationMinutes % 60;
-            sleepDurationDisplay.textContent = `总睡眠: ${hours}小时 ${minutes}分钟`;
+            sleepDurationDisplay.textContent = `Duration: ${hours}h ${minutes}m`;
         }
 
         function setTodaysDate() {
@@ -555,14 +553,14 @@
             saveEntries(entries);
             renderEntries();
             clearForm();
-            alert('日记已保存！');
+            alert('Diary entry saved!');
         }
 
         function renderEntries() {
             const entries = getEntries().sort((a, b) => new Date(b.date) - new Date(a.date));
             entriesList.innerHTML = '';
             if (entries.length === 0) {
-                entriesList.innerHTML = '<p style="text-align:center; color:#6c757d; padding: 20px;">还没有日记，开始记录你的第一篇吧！</p>';
+                entriesList.innerHTML = '<p style="text-align:center; color:#6c757d; padding: 20px;">No entries yet. Start by writing your first one!</p>';
                 return;
             }
             entries.forEach(entry => {
@@ -599,10 +597,10 @@
             if (!exerciseData || exerciseData.length === 0) {
                 return '/';
             }
-            if (typeof exerciseData === 'string') {
+            if (typeof exerciseData === 'string') { // For backward compatibility
                 return exerciseData;
             }
-            return exerciseData.map(ex => `${ex.name}${ex.duration && ex.duration !== '0' ? ` (${ex.duration}分钟)` : ''}`).join(', ');
+            return exerciseData.map(ex => `${ex.name}${ex.duration && ex.duration !== '0' ? ` (${ex.duration} mins)` : ''}`).join(', ');
         }
 
         function showDetails(id) {
@@ -616,28 +614,28 @@
                 <h2>${entry.date} - ${entry.mood || '/'}</h2>
                 <p><strong>Weather:</strong> ${entry.weather || '/'} | <strong class="day-tag" style="font-size: 1em; display: inline-block; vertical-align: middle;">DAY ${entry.dayOf39 || '/'}</strong></p>
                 
-                <div class="detail-section"><h3>SLEEP</h3><p>${entry.sleep?.quality || '/'} (${entry.sleep?.duration || '未记录时长'})</p></div>
+                <div class="detail-section"><h3>SLEEP</h3><p>${entry.sleep?.quality || '/'} (${entry.sleep?.duration || 'Duration not recorded'})</p></div>
                 
-                <div class="detail-section"><h3>SPORT</h3><p>${formatExerciseData(entry.exercise)}</p></div>
+                <div class="detail-section"><h3>EXERCISE</h3><p>${formatExerciseData(entry.exercise)}</p></div>
                 
-                <div class="detail-section"><h3>ENJOY</h3>
-                    <h4>📖Books</h4>${p(entry.mind?.book)}
-                    <h4>🎧Podcast</h4>${p(entry.mind?.podcast)}
-                    <h4>🎬Music/XHS</h4>${p(entry.mind?.media)}
-                    <h4>✨Creation</h4>${p(entry.mind?.creation)}
+                <div class="detail-section"><h3>MIND & SOUL</h3>
+                    <h4>📖 Reading</h4>${p(entry.mind?.book)}
+                    <h4>🎧 Listening</h4>${p(entry.mind?.podcast)}
+                    <h4>🎬 Media</h4>${p(entry.mind?.media)}
+                    <h4>✨ Creating</h4>${p(entry.mind?.creation)}
                 </div>
                 
-                <div class="detail-section"><h3>FOOD</h3>
-                    <h4>🍚Meals</h4>${p(entry.food?.main)}
-                    <h4>🍰Snacks</h4>${p(entry.food?.snack)}
-                    <h4>🍹Drinks</h4>${p(entry.food?.drink)}
+                <div class="detail-section"><h3>FOOD & DRINK</h3>
+                    <h4>🍚 Meals</h4>${p(entry.food?.main)}
+                    <h4>🍰 Snacks</h4>${p(entry.food?.snack)}
+                    <h4>🍹 Drinks</h4>${p(entry.food?.drink)}
                 </div>
 
                 <div class="detail-section"><h3>KID</h3>${p(entry.kids)}</div>
                 
-                <div class="detail-section"><h3>WORK</h3>${p(entry.work)}</div>
+                <div class="detail-section"><h3>WORK & MONEY</h3>${p(entry.work)}</div>
 
-                <div class="detail-section"><h3>MOMENT</h3>${p(entry.notes)}</div>
+                <div class="detail-section"><h3>HIGHLIGHTS</h3>${p(entry.notes)}</div>
             `;
             modal.style.display = 'block';
         }
@@ -713,10 +711,10 @@
         }
 
         function deleteEntry(id) {
-            if (confirm('确定要删除这篇日记吗？此操作无法撤销。')) {
+            if (confirm('Are you sure you want to delete this entry? This action cannot be undone.')) {
                 saveEntries(getEntries().filter(e => e.id !== id));
                 renderEntries();
-                alert('日记已删除。');
+                alert('Entry deleted.');
             }
         }
 
@@ -725,7 +723,7 @@
             entryIdInput.value = '';
             moodCustomInput.classList.add('hidden');
             sleepQualityBtns.forEach(b => b.classList.remove('selected'));
-            sleepDurationDisplay.textContent = '总睡眠: /';
+            sleepDurationDisplay.textContent = 'Duration: /';
             document.querySelectorAll('.exercise-duration').forEach(input => input.value = '');
             setTodaysDate();
         }
@@ -742,16 +740,16 @@
                     <div class="img-day">DAY ${entry.dayOf39 || '/'}</div>
                     <div class="img-date">${entry.date} &nbsp; | &nbsp; ${entry.mood || '/'}</div>
                 </div>
-                ${section('闪光时刻', entry.notes)}
-                ${section('睡眠', `${entry.sleep?.quality || ''} (${entry.sleep?.duration || ''})`)}
-                ${section('运动', formatExerciseData(entry.exercise))}
-                ${section('关于孩子', entry.kids)}
+                ${section('Highlights', entry.notes)}
+                ${section('Sleep', `${entry.sleep?.quality || ''} (${entry.sleep?.duration || ''})`)}
+                ${section('Exercise', formatExerciseData(entry.exercise))}
+                ${section('About the Kid(s)', entry.kids)}
                 <div class="img-footer">
-                    Generated by MY 39 Personal Growth System
+                    Generated by MY39 Daily Journal
                 </div>
             `;
             
-            alert('正在生成图片，请稍候...');
+            alert('Generating image, please wait...');
 
             try {
                 const canvas = await html2canvas(exportContainer, { scale: 2 });
@@ -760,48 +758,48 @@
                 link.href = canvas.toDataURL('image/png');
                 link.click();
             } catch (error) {
-                console.error('图片生成失败:', error);
-                alert('抱歉，图片生成失败，请检查控制台获取更多信息。');
+                console.error('Image generation failed:', error);
+                alert('Sorry, image generation failed. Please check the console for more information.');
             }
         }
 
         function exportToTxt() {
             const entries = getEntries().sort((a, b) => new Date(b.date) - new Date(a.date));
             if (entries.length === 0) {
-                alert('没有日记可以导出。');
+                alert('No entries to export.');
                 return;
             }
 
-            let fullText = "MY39 日记备份\n\n";
+            let fullText = "MY39 Diary Backup\n\n";
             const val = (text) => text && text.trim() ? text.trim() : '/';
 
             entries.forEach(entry => {
                 fullText += `========================================\n`;
-                fullText += `日期: ${entry.date} (DAY ${entry.dayOf39 || 'N/A'})\n`;
-                fullText += `心情: ${val(entry.mood)}\n`;
+                fullText += `Date: ${entry.date} (DAY ${entry.dayOf39 || 'N/A'})\n`;
+                fullText += `Mood: ${val(entry.mood)}\n`;
                 fullText += `Weather: ${val(entry.weather)}\n`;
                 fullText += `----------------------------------------\n`;
                 fullText += `SLEEP:\n  ${val(entry.sleep?.quality)} (${val(entry.sleep?.duration)})\n\n`;
-                fullText += `SPORTS:\n  ${formatExerciseData(entry.exercise)}\n\n`;
-                fullText += `ENJOY:\n`;
-                fullText += `  - Books: ${val(entry.mind?.book)}\n`;
-                fullText += `  - Podcast: ${val(entry.mind?.podcast)}\n`;
-                fullText += `  - Music/XHS: ${val(entry.mind?.media)}\n`;
-                fullText += `  - Creation: ${val(entry.mind?.creation)}\n\n`;
-                fullText += `FOOD:\n`;
+                fullText += `EXERCISE:\n  ${formatExerciseData(entry.exercise)}\n\n`;
+                fullText += `MIND & SOUL:\n`;
+                fullText += `  - Reading: ${val(entry.mind?.book)}\n`;
+                fullText += `  - Listening: ${val(entry.mind?.podcast)}\n`;
+                fullText += `  - Media: ${val(entry.mind?.media)}\n`;
+                fullText += `  - Creating: ${val(entry.mind?.creation)}\n\n`;
+                fullText += `FOOD & DRINK:\n`;
                 fullText += `  - Meals: ${val(entry.food?.main)}\n`;
                 fullText += `  - Snacks: ${val(entry.food?.snack)}\n`;
                 fullText += `  - Drinks: ${val(entry.food?.drink)}\n\n`;
                 fullText += `KID:\n  ${val(entry.kids)}\n\n`;
-                fullText += `WORK:\n  ${val(entry.work)}\n\n`;
-                fullText += `MOMENTS:\n  ${val(entry.notes)}\n\n`;
+                fullText += `WORK & MONEY:\n  ${val(entry.work)}\n\n`;
+                fullText += `HIGHLIGHTS:\n  ${val(entry.notes)}\n\n`;
             });
 
             const blob = new Blob([fullText], { type: 'text/plain;charset=utf-8;' });
             
             const link = document.createElement('a');
             link.href = URL.createObjectURL(blob);
-            link.download = `MY39_日记备份_${new Date().toISOString().split('T')[0]}.txt`;
+            link.download = `MY39_Diary_Backup_${new Date().toISOString().split('T')[0]}.txt`;
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
@@ -810,19 +808,19 @@
         function exportToCSV() {
             const entries = getEntries();
             if (entries.length === 0) {
-                alert('没有日记可以导出。');
+                alert('No entries to export.');
                 return;
             }
 
-            const headers = ['ID', '日期', 'DAY', 'Weather', '心情', '睡眠质量', '入睡时间', '醒来时间', '睡眠时长', '运动', '读书', '播客听书', '影音音乐', '奇思妙想', '三餐', '零食甜品', '饮品', '关于孩子', '工作成就', '闪光时刻'];
+            const headers = ['ID', 'Date', 'Day_of_39', 'Weather', 'Mood', 'Sleep_Quality', 'Sleep_Start', 'Sleep_End', 'Sleep_Duration', 'Exercise', 'Reading', 'Listening', 'Media', 'Creating', 'Meals', 'Snacks', 'Drinks', 'Kid_Notes', 'Work_Money_Notes', 'Highlights'];
             const csvRows = [headers.join(',')];
 
             const escapeCSV = (str) => {
                 if (str === null || str === undefined) return '';
-                str = String(str).replace(/\n/g, ' ');
+                str = String(str).replace(/\n/g, ' '); // Replace newlines to keep row integrity
                 if (str.includes(',') || str.includes('"')) {
                     return `"${str.replace(/"/g, '""')}"`;
-             }
+                }
                 return str;
             };
 
@@ -839,11 +837,11 @@
             });
 
             const csvString = csvRows.join('\n');
-            const blob = new Blob(['\uFEFF' + csvString], { type: 'text/csv;charset=utf-8;' });
+            const blob = new Blob(['\uFEFF' + csvString], { type: 'text/csv;charset=utf-8;' }); // \uFEFF for BOM
             
             const link = document.createElement('a');
             link.href = URL.createObjectURL(blob);
-            link.download = `MY39_日记备份_${new Date().toISOString().split('T')[0]}.csv`;
+            link.download = `MY39_Diary_Backup_${new Date().toISOString().split('T')[0]}.csv`;
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
