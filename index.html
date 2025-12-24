@@ -3,350 +3,325 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MY 39 - 我的39岁日记</title>
+    <title>MY39 v2.3 (已调整格式)</title>
     <!-- 引入 Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <!-- 引入 html2canvas 库用于生成图片 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
-        /* 颜色变量 - 柔和的女性化色调 */
+        /* --- 基础样式与颜色变量 --- */
         :root {
-            --primary-color: #a78bfa; /* 柔和的薰衣草紫 */
-            --secondary-color: #f7b7a3; /* 温暖的蜜桃色 */
-            --bg-color: #fcf8f7; /* 极浅的米白 */
-            --card-bg: #ffffff;
-            --text-color: #4a4a4a; /* 深灰，比纯黑更柔和 */
-            --border-color: #e0e0e0; /* 浅灰边框 */
-            --danger-color: #e77f7f; /* 柔和的红 */
-            --success-color: #8bc34a; /* 柔和的绿 */
-            --hover-shadow: 0 6px 20px rgba(0, 0, 0, 0.08); /* 悬停阴影 */
+            --primary-color: #a78bfa; --secondary-color: #f7b7a3; --bg-color: #fcf8f7;
+            --card-bg: #ffffff; --text-color: #4a4a4a; --border-color: #e0e0e0;
+            --danger-color: #e77f7f; --success-color: #8bc34a; --hover-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
         }
         body {
-            font-family: 'Open Sans', sans-serif; /* 主体文字使用现代无衬线字体 */
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            margin: 0;
-            padding: 20px;
-            line-height: 1.7; /* 增加行高，提升阅读舒适度 */
-            -webkit-font-smoothing: antialiased; /* 字体抗锯齿，更平滑 */
-            -moz-osx-font-smoothing: grayscale;
+            font-family: 'Open Sans', sans-serif; background-color: var(--bg-color); color: var(--text-color);
+            margin: 0; padding: 20px; line-height: 1.7;
         }
         .container {
-            max-width: 1000px;
-            margin: 0 auto;
-            background-color: var(--card-bg);
-            padding: 30px;
-            border-radius: 15px; /* 更圆润的边角 */
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08); /* 更明显的柔和阴影 */
+            max-width: 1000px; margin: 0 auto; background-color: var(--card-bg);
+            padding: 30px; border-radius: 15px; box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
         }
-        h1, h2 {
-            font-family: 'Playfair Display', serif; /* 标题使用优雅的衬线字体 */
-            color: var(--primary-color);
-            text-align: center;
-            border-bottom: 1px solid var(--border-color); /* 更细的分割线 */
-            padding-bottom: 15px;
-            margin-top: 0;
-            letter-spacing: 0.05em; /* 增加字母间距，提升优雅感 */
-        }
-        h1 span {
-            margin-left: 10px;
-            color: var(--secondary-color); /* 强调色 */
-        }
-        .birthday-setup {
-            background-color: #fff9e6; /* 柔和的米黄色背景 */
-            border: 1px solid #ffe0b2; /* 柔和的边框 */
-            padding: 18px;
-            border-radius: 10px;
-            margin-bottom: 25px;
-            text-align: center;
-            color: #6a5a4a; /* 搭配背景的深色文字 */
-        }
-        #diary-form fieldset {
-            border: 1px solid var(--border-color);
-            padding: 25px;
-            border-radius: 10px; /* 圆润的边角 */
-            margin-bottom: 25px;
-        }
-        #diary-form legend {
-            font-family: 'Playfair Display', serif;
-            font-weight: 700;
-            color: var(--primary-color);
-            padding: 0 15px;
-            font-size: 1.3em;
-            letter-spacing: 0.03em;
-        }
-        .form-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 25px; /* 增加间距 */
-        }
-        .form-group {
-            display: flex;
-            flex-direction: column;
-        }
-        label {
-            font-weight: 600;
-            margin-bottom: 8px;
-            color: var(--text-color);
-        }
-        input[type="date"], input[type="text"], select, textarea {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid var(--border-color);
-            border-radius: 8px; /* 圆润的输入框 */
-            font-size: 1rem;
-            box-sizing: border-box;
-            background-color: #fdfdfd;
-            transition: border-color 0.3s ease, box-shadow 0.3s ease;
-        }
-        input[type="date"]:focus, input[type="text"]:focus, select:focus, textarea:focus {
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 3px rgba(167, 139, 250, 0.2); /* 柔和的焦点阴影 */
-            outline: none;
-        }
-        textarea {
-            min-height: 120px; /* 增加文本域高度 */
-            resize: vertical;
-        }
-        .full-width {
-            grid-column: 1 / -1;
-        }
-        .button-group {
-            display: flex;
-            gap: 15px;
-            justify-content: center;
-            margin-top: 30px;
-        }
-        button {
-            padding: 12px 25px;
-            border: none;
-            border-radius: 8px; /* 圆润的按钮 */
-            font-size: 1.05rem;
-            cursor: pointer;
-            transition: all 0.3s ease; /* 更平滑的过渡效果 */
-            font-weight: 600;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05); /* 按钮的轻微阴影 */
-        }
-        button:hover {
-            transform: translateY(-2px); /* 悬停时轻微上浮 */
-            box-shadow: var(--hover-shadow);
-        }
-        .btn-save { background-color: var(--success-color); color: white; }
-        .btn-save:hover { background-color: #7cb342; } /* 稍深一点的悬停色 */
-        .btn-new { background-color: var(--primary-color); color: white; }
-        .btn-new:hover { background-color: #9370db; }
-        .btn-export { background-color: var(--secondary-color); color: white; }
-        .btn-export:hover { background-color: #f0a08a; }
-        .btn-details { background-color: #81d4fa; color: white; } /* 柔和的蓝色 */
-        .btn-details:hover { background-color: #64b5f6; }
-        .btn-edit { background-color: #ffd54f; color: var(--text-color); } /* 柔和的黄色 */
-        .btn-edit:hover { background-color: #ffc107; }
-        .btn-delete { background-color: var(--danger-color); color: white; }
-        .btn-delete:hover { background-color: #d32f2f; }
+        h1, h2, legend { font-family: 'Playfair Display', serif; color: var(--primary-color); }
+        h1 { text-align: center; border-bottom: 1px solid var(--border-color); padding-bottom: 15px; margin-top: 0; letter-spacing: 0.05em; }
+        h1 span { margin-left: 10px; color: var(--secondary-color); }
+        hr { border: none; border-top: 1px dashed var(--border-color); margin: 40px 0; }
+        .hidden { display: none !important; }
+        
+        /* --- 生日设置与显示 --- */
+        #birthday-display { text-align: center; margin-bottom: 20px; color: #6c757d; }
+        #birthday-display a { color: var(--primary-color); cursor: pointer; text-decoration: underline; }
+        .birthday-setup { background-color: #fff9e6; border: 1px solid #ffe0b2; padding: 18px; border-radius: 10px; margin-bottom: 25px; text-align: center; }
 
-        #entries-list {
-            margin-top: 40px;
+        /* --- 表单与输入元素 --- */
+        #diary-form fieldset { border: 1px solid var(--border-color); padding: 25px; border-radius: 10px; margin-bottom: 25px; }
+        #diary-form legend { font-weight: 700; padding: 0 15px; font-size: 1.3em; letter-spacing: 0.03em; }
+        .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 25px; }
+        .form-group { display: flex; flex-direction: column; }
+        label { font-weight: 600; margin-bottom: 8px; }
+        input[type="date"], input[type="text"], input[type="time"], input[type="number"], select, textarea {
+            width: 100%; padding: 12px; border: 1px solid var(--border-color); border-radius: 8px; font-size: 1rem;
+            box-sizing: border-box; background-color: #fdfdfd; transition: all 0.3s ease;
         }
+        input:focus, select:focus, textarea:focus { border-color: var(--primary-color); box-shadow: 0 0 0 3px rgba(167, 139, 250, 0.2); outline: none; }
+        textarea { min-height: 100px; resize: vertical; }
+        .full-width { grid-column: 1 / -1; }
+        
+        /* --- 特定模块样式 --- */
+        #mood-custom { margin-top: 10px; }
+        .sleep-quality-group { display: flex; gap: 10px; margin-bottom: 15px; flex-wrap: wrap; }
+        .sleep-quality-btn { cursor: pointer; padding: 8px 12px; border: 1px solid var(--border-color); border-radius: 8px; transition: all 0.2s ease; user-select: none; }
+        .sleep-quality-btn:hover { background-color: #f0f0f0; }
+        .sleep-quality-btn.selected { border-color: var(--primary-color); background-color: #f3e8ff; box-shadow: 0 0 0 2px rgba(167, 139, 250, 0.3); }
+        .sleep-time-group { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+        #sleep-duration-display { font-weight: bold; color: var(--primary-color); }
+        
+        .exercise-item { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+        .exercise-item label { margin-bottom: 0; flex-shrink: 0; width: 60px; }
+        .exercise-item input[type="checkbox"] { width: auto; }
+        .exercise-duration { font-size: 0.9em; padding: 8px; }
+        .exercise-other-group { display: flex; align-items: center; gap: 10px; margin-top: 10px; }
+
+        .sub-group { margin-top: 15px; }
+        .sub-group label { font-size: 0.9em; color: #555; }
+        .sub-group textarea { min-height: 60px; }
+
+        /* --- 按钮 (已按要求调整) --- */
+        .button-group { display: flex; gap: 15px; justify-content: center; margin-top: 30px; }
+        button { padding: 12px 25px; border: none; border-radius: 8px; font-size: 1.05rem; cursor: pointer; transition: all 0.3s ease; font-weight: 600; }
+        button:hover { transform: translateY(-2px); box-shadow: var(--hover-shadow); }
+
+        /* 3. Save/Refresh 使用温和颜色 */
+        .btn-save { background-color: #81c784; color: white; } /* 温和的绿色 */
+        .btn-save:hover { background-color: #66bb6a; }
+        .btn-new { background-color: #4db6ac; color: white; } /* 温和的青色 */
+        .btn-new:hover { background-color: #26a69a; }
+        
+        /* 1. 导出按钮使用灰色 */
+        .btn-export { background-color: #9e9e9e; color: white; } /* 灰色 */
+        .btn-export:hover { background-color: #8c8c8c; }
+        
+        .export-button-group { display: flex; justify-content: center; gap: 15px; margin-bottom: 25px; }
+        
+        /* --- 日记列表 (已按要求调整) --- */
+        #entries-list { margin-top: 40px; }
         .entry-card {
-            background-color: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-left: 6px solid var(--primary-color); /* 更明显的左侧强调色 */
-            padding: 20px;
-            border-radius: 10px;
-            margin-bottom: 20px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04); /* 柔和的卡片阴影 */
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            background-color: var(--card-bg); border: 1px solid var(--border-color); border-left: 6px solid var(--primary-color);
+            padding: 20px; border-radius: 10px; margin-bottom: 20px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+            display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; transition: all 0.2s ease;
         }
-        .entry-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-        }
-        .entry-info {
-            flex-grow: 1;
-            font-size: 1.1rem;
-        }
-        .entry-info strong {
-            font-family: 'Playfair Display', serif; /* 日期也使用衬线字体 */
-            font-size: 1.3rem;
-            color: var(--primary-color);
-        }
-        .entry-info span {
-            margin-left: 20px;
-            color: #6c757d;
-        }
-        .entry-actions {
-            display: flex;
-            gap: 10px;
-            margin-top: 10px;
-            flex-shrink: 0;
-        }
+        .entry-card:hover { transform: translateY(-3px); box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); }
+        .entry-info { flex-grow: 1; }
+        .entry-info strong { font-family: 'Playfair Display', serif; font-size: 1.4rem; color: var(--primary-color); }
+        .entry-info .day-tag { background-color: var(--secondary-color); color: white; padding: 3px 10px; border-radius: 12px; font-size: 0.9rem; font-weight: bold; margin-left: 15px; }
+        .entry-info span { margin-left: 15px; color: #6c757d; }
+        .entry-actions { display: flex; gap: 10px; margin-top: 10px; }
+        
+        /* 2. View/Edit/Delete 使用不同颜色 */
         .entry-actions button {
             padding: 8px 15px;
             font-size: 0.95rem;
-        }
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: auto;
-            background-color: rgba(0,0,0,0.4); /* 稍浅的背景遮罩 */
-        }
-        .modal-content {
-            background-color: #fefefe;
-            margin: 8% auto; /* 弹窗位置稍高 */
-            padding: 30px;
+            color: white;
             border: none;
-            width: 85%;
-            max-width: 750px;
-            border-radius: 15px;
-            position: relative;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-        }
-        .close-button {
-            color: #aaa;
-            float: right;
-            font-size: 32px; /* 更大的关闭按钮 */
-            font-weight: normal; /* 字体更柔和 */
+            border-radius: 5px;
+            font-weight: 600;
             cursor: pointer;
-            transition: color 0.3s ease;
+            transition: background-color 0.2s ease, transform 0.2s ease;
         }
-        .close-button:hover, .close-button:focus {
-            color: var(--primary-color);
-            text-decoration: none;
+        .entry-actions button:hover {
+            transform: translateY(-1px);
         }
-        .detail-section {
-            margin-bottom: 20px;
-        }
-        .detail-section h3 {
-            font-family: 'Playfair Display', serif;
-            margin: 0 0 8px 0;
-            color: var(--primary-color);
-            border-bottom: 1px dashed var(--border-color); /* 虚线分割，更柔和 */
-            padding-bottom: 8px;
-            font-size: 1.2em;
-        }
-        .detail-section p {
-            margin: 0;
-            color: #5a5a5a;
-        }
-        hr {
-            border: none;
-            border-top: 1px dashed var(--border-color); /* 虚线分割线 */
-            margin: 40px 0;
-        }
+        .entry-actions .btn-details { background-color: #64b5f6; } /* View - Blue */
+        .entry-actions .btn-edit    { background-color: #ffb74d; } /* Edit - Orange */
+        .entry-actions .btn-delete  { background-color: #e57373; } /* Delete - Red */
 
-        /* 响应式设计 */
-        @media (max-width: 768px) {
-            body { padding: 15px; }
-            .container { padding: 20px; }
-            .entry-card { flex-direction: column; align-items: flex-start; }
-            .entry-info { margin-bottom: 15px; }
-            .entry-info span { margin-left: 0; display: block; margin-top: 5px; }
-            .entry-actions { width: 100%; justify-content: flex-end; margin-top: 15px; }
-            .modal-content { margin: 5% auto; width: 90%; }
+        .entry-actions .btn-details:hover { background-color: #42a5f5; }
+        .entry-actions .btn-edit:hover    { background-color: #ffa726; }
+        .entry-actions .btn-delete:hover  { background-color: #ef5350; }
+
+        /* --- 弹窗 (Modal) --- */
+        .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.4); }
+        .modal-content { background-color: #fefefe; margin: 5% auto; padding: 30px; border-radius: 15px; width: 90%; max-width: 750px; position: relative; box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
+        .close-button { color: #aaa; float: right; font-size: 32px; font-weight: normal; cursor: pointer; line-height: 1; }
+        .close-button:hover { color: var(--primary-color); }
+        .detail-section h3 { font-family: 'Playfair Display', serif; margin: 15px 0 8px 0; color: var(--primary-color); border-bottom: 1px dashed var(--border-color); padding-bottom: 8px; font-size: 1.2em; }
+        .detail-section h4 { font-family: 'Open Sans', sans-serif; font-size: 1em; color: #555; margin: 10px 0 5px 0; font-weight: 600; }
+        .detail-section p, .detail-section ul { margin: 0; color: #5a5a5a; white-space: pre-wrap; }
+        .detail-section ul { padding-left: 20px; white-space: normal; }
+        #save-image-btn { background-color: var(--secondary-color); color: white; margin-top: 20px; }
+
+        /* --- 图片导出模板 (隐藏) --- */
+        #image-export-container {
+            position: absolute; left: -9999px; top: 0;
+            width: 1080px; padding: 60px;
+            background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
+            font-family: 'Open Sans', sans-serif; color: #333; box-sizing: border-box;
         }
+        #image-export-container .img-header { text-align: center; margin-bottom: 40px; }
+        #image-export-container .img-day { font-family: 'Playfair Display', serif; font-size: 80px; color: var(--primary-color); }
+        #image-export-container .img-date { font-size: 24px; color: #777; margin-top: 10px; }
+        #image-export-container .img-section { margin-bottom: 30px; }
+        #image-export-container .img-section h4 { font-family: 'Playfair Display', serif; font-size: 28px; color: var(--secondary-color); margin: 0 0 10px 0; border-bottom: 1px solid #ddd; padding-bottom: 5px; }
+        #image-export-container .img-section p { font-size: 20px; line-height: 1.6; white-space: pre-wrap; }
+        #image-export-container .img-footer { text-align: center; margin-top: 50px; font-size: 16px; color: #999; }
+
+        /* --- 页脚 --- */
+        .footer-note { text-align: center; margin-top: 40px; font-size: 0.85em; color: #999; }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <h1>MY 39 <span>✨</span> 我的39岁日记</h1>
+        <h1><span>✨</span>MY39</h1>
 
-        <div class="birthday-setup">
-            <label for="birthday"><b>第一步：设置你的39岁生日日期</b></label>
+        <div id="birthday-display" class="hidden">
+            39th Birthday: <span id="birthday-text"></span> (<a id="edit-birthday-link">修改</a>)
+        </div>
+
+        <div id="birthday-setup" class="birthday-setup">
+            <label for="birthday"><b>首次记录输入39Y Birthday</b></label>
             <input type="date" id="birthday" style="max-width: 220px; margin: 12px auto; display: block;">
-            <small>设置后，系统将自动计算“39岁的第几天”</small>
+            <button id="save-birthday-btn" class="btn-new" style="padding: 8px 16px; font-size: 0.9em;">确认</button>
         </div>
 
         <form id="diary-form">
             <input type="hidden" id="entry-id">
             <fieldset>
-                <legend>今日速览</legend>
+                <legend>BASIC</legend>
                 <div class="form-grid">
                     <div class="form-group">
-                        <label for="date">日期</label>
+                        <label for="date">Date</label>
                         <input type="date" id="date" required>
                     </div>
-                    <div class="form-group">
-                        <label for="day-of-39">39岁的第几天</label>
-                        <input type="text" id="day-of-39" readonly style="background-color: #f0f0f0; color: #666;">
+   <div class="form-group">
+                        <label for="day-of-39">Day</label>
+                        <input type="text" id="day-of-39" readonly style="background-color: #f0f0f0; color: #666; text-align: center; font-weight: bold; font-size: 1.2em;">
                     </div>
                     <div class="form-group">
-                        <label for="weather">天气</label>
-                        <input type="text" id="weather" placeholder="如：晴转多云，微风">
+                        <label for="weather">Weather</label>
+                        <input type="text" id="weather" placeholder="Sun Cloud Rain Breeze">
                     </div>
                     <div class="form-group">
-                        <label for="mood">心情</label>
+                        <label for="mood">Mood</label>
                         <select id="mood">
-                            <option value="😊 愉悦">😊 愉悦</option>
-                            <option value="😌 平静">😌 平静</option>
-                            <option value="😔 难过">😔 难过</option>
-                            <option value="😤 烦躁">😤 烦躁</option>
-                            <option value="😴 疲惫">😴 疲惫</option>
-                            <option value="✨ 兴奋">✨ 兴奋</option>
-                            <option value="💭 沉思">💭 沉思</option>
-                            <option value="💖 幸福">💖 幸福</option>
-                            <option value="🌱 成长">🌱 成长</option>
+                            <option value="😊 愉悦">😊</option> <option value="😌 平静">😌</option>
+                            <option value="😔 难过">😔</option> <option value="😤 烦躁">😤</option>
+                            <option value="😴 疲惫">😴</option> <option value="✨ 兴奋">✨</option>
+                            <option value="💭 沉思">💭</option> <option value="💖 幸福">💖</option>
+                            <option value="🌱 成长">🌱</option> <option value="custom">自定义</option>
                         </select>
+                        <input type="text" id="mood-custom" class="hidden" placeholder="描述你的心情状态">
                     </div>
                 </div>
             </fieldset>
 
             <fieldset>
-                <legend>每日记录</legend>
+                <legend>DIARY</legend>
                 <div class="form-grid">
+                    <!-- 睡眠模块 -->
                     <div class="form-group">
-                        <label for="sleep">睡眠</label>
-                        <textarea id="sleep" placeholder="昨晚睡得好吗？几点入睡，几点醒来？梦境如何？"></textarea>
+                        <label>SLEEP</label>
+                        <div class="sleep-quality-group">
+                            <span class="sleep-quality-btn" data-value="😴 深度睡眠">😴Good</span>
+                            <span class="sleep-quality-btn" data-value="😌 正常睡眠">😌Nice</span>
+                            <span class="sleep-quality-btn" data-value="😐 浅度睡眠">😐Soso</span>
+                            <span class="sleep-quality-btn" data-value="😩 睡眠不佳">😩Bad</span>
+                        </div>
+                        <div class="sleep-time-group">
+                            <input type="time" id="sleep-start" title="入睡时间">
+                            <span>-</span>
+                            <input type="time" id="sleep-end" title="醒来时间">
+                            <span id="sleep-duration-display">Total: /</span>
+                        </div>
                     </div>
+
+                    <!-- 运动模块 -->
                     <div class="form-group">
-                        <label for="exercise">运动</label>
-                        <textarea id="exercise" placeholder="今天做了什么运动？身体感觉如何？"></textarea>
+                        <label>SPORT</label>
+                        <div id="exercise-group">
+                            <div class="exercise-item">
+                                <input type="checkbox" name="exercise-type" value="骑车" id="ex-bike">
+                                <label for="ex-bike">Bike</label>
+                                <input type="number" class="exercise-duration" placeholder="Duration" min="0">
+                            </div>
+                            <div class="exercise-item">
+                                <input type="checkbox" name="exercise-type" value="跑步" id="ex-run">
+                                <label for="ex-run">Run</label>
+                                <input type="number" class="exercise-duration" placeholder="Duration" min="0">
+                            </div>
+                            <div class="exercise-item">
+                                <input type="checkbox" name="exercise-type" value="走路" id="ex-walk">
+                                <label for="ex-walk">Walk</label>
+                                <input type="number" class="exercise-duration" placeholder="Duration" min="0">
+    </div>
+                            <div class="exercise-item">
+                                <input type="checkbox" name="exercise-type" value="跳绳" id="ex-rope">
+                                <label for="ex-rope">Jump</label>
+                                <input type="number" class="exercise-duration" placeholder="Duration" min="0">
+                            </div>
+                            <div class="exercise-item">
+                                <input type="checkbox" name="exercise-type" value="瑜伽" id="ex-yoga">
+                                <label for="ex-yoga">Yoga</label>
+                                <input type="number" class="exercise-duration" placeholder="Duration" min="0">
+                            </div>
+                            <div class="exercise-other-group">
+                                <input type="text" id="exercise-other-name" placeholder="Else..." style="flex-grow: 1;">
+                                <input type="number" id="exercise-other-duration" placeholder="Duration" min="0" style="width: 120px;">
+                            </div>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label for="mind">精神滋养 (读书/播客/音乐/娱乐)</label>
-                        <textarea id="mind" placeholder="读了什么书？听了什么播客？看了什么电影/剧？有什么启发？"></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label for="food">美食与味蕾</label>
-                        <textarea id="food" placeholder="今天吃了什么特别的美食？感受如何？"></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label for="work">工作与成就</label>
-                        <textarea id="work" placeholder="工作上的进展、挑战或新的思考。"></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label for="kids">孩子与家庭</label>
-                        <textarea id="kids" placeholder="关于孩子的趣事、成长瞬间或家庭互动。"></textarea>
-                    </div>
+
+                    <!-- 精神滋养模块 -->
                     <div class="form-group full-width">
-                        <label for="notes">每日随笔 (感悟与小确幸)</label>
-                        <textarea id="notes" placeholder="记录任何其他想说的话，你的小确幸、感悟、灵感或烦恼。"></textarea>
+                        <label>ENJOY</label>
+                        <div class="sub-group">
+                            <label for="mind-book">📖Book</label>
+                            <textarea id="mind-book" placeholder="Thoughts on books"></textarea>
+                        </div>
+                        <div class="sub-group">
+                            <label for="mind-podcast">🎧Podcast</label>
+                            <textarea id="mind-podcast" placeholder="Moves and likes"></textarea>
+                        </div>
+                        <div class="sub-group">
+                            <label for="mind-media">🎬Music/XHS</label>
+                            <textarea id="mind-media" placeholder="Songs and videos"></textarea>
+                        </div>
+                        <div class="sub-group">
+                            <label for="mind-creation">✨Creation</label>
+                            <textarea id="mind-creation" placeholder="Ideas and pieces"></textarea>
+                        </div>
+                    </div>
+
+                    <!-- 美食模块 -->
+                    <div class="form-group full-width">
+                        <label>FOOD</label>
+                        <div class="sub-group">
+                            <label for="food-main">🍚Meals</label>
+                            <textarea id="food-main" placeholder="Brunch and Dinner"></textarea>
+                        </div>
+                        <div class="sub-group">
+                            <label for="food-snack">🍰Snacks</label>
+                            <textarea id="food-snack" placeholder="Junk food"></textarea>
+                        </div>
+                         <div class="sub-group">
+                            <label for="food-drink">🍹Drinks</label>
+                            <textarea id="food-drink" placeholder="Coffee or Tea"></textarea>
+                        </div>
+                    </div>
+
+                    <!-- KID and WORK swapped -->
+                    <div class="form-group">
+                        <label for="kids">KID</label>
+                        <textarea id="kids" placeholder="Bitter and Sweet"></textarea>
+                    </div>
+                    
+                    <div class="form-group full-width">
+                        <label for="work">MONEY</label>
+                        <textarea id="work" placeholder="BULLSHITJOB"></textarea>
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label for="notes">MOMENT</label>
+    <textarea id="notes" placeholder="Smiles"></textarea>
                     </div>
                 </div>
             </fieldset>
 
             <div class="button-group">
-                <button type="submit" class="btn-save">保存今日日记</button>
-                <button type="button" id="new-entry-btn" class="btn-new">清空并开始新日记</button>
+                <button type="submit" class="btn-save">Save</button>
+                <button type="button" id="new-entry-btn" class="btn-new">Refresh</button>
             </div>
         </form>
 
         <hr>
 
-        <h2>我的日记时光轴</h2>
-        <div style="text-align: center; margin-bottom: 25px;">
-            <button id="export-btn" class="btn-export">导出所有日记到 Excel (CSV)</button>
+        <h2>TIMELINE</h2>
+        <div class="export-button-group">
+            <button id="export-txt-btn" class="btn-export">Export.txt</button>
+            <button id="export-csv-btn" class="btn-export">Export.csv</button>
         </div>
-        <div id="entries-list">
-            <!-- 日记条目将在这里动态生成 -->
-        </div>
+        <div id="entries-list"></div>
     </div>
 
     <!-- 详情弹窗 -->
@@ -354,37 +329,68 @@
         <div class="modal-content">
             <span class="close-button">&times;</span>
             <div id="modal-body"></div>
+            <button id="save-image-btn">分享</button>
         </div>
     </div>
 
+    <!-- 用于生成图片的隐藏容器 -->
+    <div id="image-export-container"></div>
+    
+    <footer class="footer-note">
+        <p><strong>数据安全提示</strong>：所有日记数据仅保存在您当前的浏览器中。直接打开HTML文件使用时，请勿移动文件位置，否则可能导致数据无法读取。</p>
+        <p>清除浏览器缓存、使用无痕模式或更换设备将导致数据丢失。建议您定期使用“导出”功能备份您的珍贵记录。</p>
+    </footer>
+
     <script>
     document.addEventListener('DOMContentLoaded', () => {
+        // --- DOM 元素获取 ---
         const form = document.getElementById('diary-form');
         const entryIdInput = document.getElementById('entry-id');
         const dateInput = document.getElementById('date');
         const dayOf39Input = document.getElementById('day-of-39');
         const weatherInput = document.getElementById('weather');
         const moodInput = document.getElementById('mood');
-        const sleepInput = document.getElementById('sleep');
-        const exerciseInput = document.getElementById('exercise');
-        const mindInput = document.getElementById('mind');
-        const foodInput = document.getElementById('food');
+        const moodCustomInput = document.getElementById('mood-custom');
+        const sleepQualityBtns = document.querySelectorAll('.sleep-quality-btn');
+        const sleepStartInput = document.getElementById('sleep-start');
+        const sleepEndInput = document.getElementById('sleep-end');
+        const sleepDurationDisplay = document.getElementById('sleep-duration-display');
+        
+        const exerciseItems = document.querySelectorAll('.exercise-item');
+        const exerciseOtherNameInput = document.getElementById('exercise-other-name');
+        const exerciseOtherDurationInput = document.getElementById('exercise-other-duration');
+
+        const mindBookInput = document.getElementById('mind-book');
+        const mindPodcastInput = document.getElementById('mind-podcast');
+        const mindMediaInput = document.getElementById('mind-media');
+        const mindCreationInput = document.getElementById('mind-creation');
+        const foodMainInput = document.getElementById('food-main');
+        const foodSnackInput = document.getElementById('food-snack');
+        const foodDrinkInput = document.getElementById('food-drink');
         const workInput = document.getElementById('work');
         const kidsInput = document.getElementById('kids');
         const notesInput = document.getElementById('notes');
         const newEntryBtn = document.getElementById('new-entry-btn');
         const entriesList = document.getElementById('entries-list');
-        const exportBtn = document.getElementById('export-btn');
+        const exportTxtBtn = document.getElementById('export-txt-btn');
+        const exportCsvBtn = document.getElementById('export-csv-btn');
         const birthdayInput = document.getElementById('birthday');
+        const saveBirthdayBtn = document.getElementById('save-birthday-btn');
+        const birthdaySetupDiv = document.getElementById('birthday-setup');
+        const birthdayDisplayDiv = document.getElementById('birthday-display');
+        const birthdayTextSpan = document.getElementById('birthday-text');
+        const editBirthdayLink = document.getElementById('edit-birthday-link');
         const modal = document.getElementById('details-modal');
         const modalBody = document.getElementById('modal-body');
         const closeButton = document.querySelector('.close-button');
+        const saveImageBtn = document.getElementById('save-image-btn');
 
-        const STORAGE_KEY = 'my39DiaryEntriesElegant'; // 更改存储键，避免与旧版本冲突
-        const BIRTHDAY_KEY = 'my39BirthdayElegant'; // 更改存储键
+        const STORAGE_KEY = 'my39DiarySystem_v2.3'; 
+        const BIRTHDAY_KEY = 'my39Birthday_v2';
+        let currentDetailEntryId = null;
 
-        // 初始化
-        loadBirthday();
+        // --- 初始化 ---
+        updateBirthdayUI();
         setTodaysDate();
         renderEntries();
 
@@ -392,36 +398,54 @@
         form.addEventListener('submit', saveEntry);
         newEntryBtn.addEventListener('click', clearForm);
         entriesList.addEventListener('click', handleEntryAction);
-        exportBtn.addEventListener('click', exportToCSV);
-        birthdayInput.addEventListener('change', saveAndCalculateBirthday);
+        exportTxtBtn.addEventListener('click', exportToTxt);
+        exportCsvBtn.addEventListener('click', exportToCSV);
+        saveBirthdayBtn.addEventListener('click', saveAndCalculateBirthday);
+        editBirthdayLink.addEventListener('click', () => {
+            birthdaySetupDiv.classList.remove('hidden');
+            birthdayDisplayDiv.classList.add('hidden');
+        });
         dateInput.addEventListener('change', calculateDayNumber);
+        moodInput.addEventListener('change', () => {
+            moodCustomInput.classList.toggle('hidden', moodInput.value !== 'custom');
+        });
+        sleepQualityBtns.forEach(btn => btn.addEventListener('click', (e) => {
+            sleepQualityBtns.forEach(b => b.classList.remove('selected'));
+            e.currentTarget.classList.add('selected');
+        }));
+        [sleepStartInput, sleepEndInput].forEach(input => input.addEventListener('change', calculateSleepDuration));
         closeButton.addEventListener('click', () => modal.style.display = 'none');
         window.addEventListener('click', (event) => {
-            if (event.target == modal) {
-                modal.style.display = 'none';
-            }
+            if (event.target == modal) modal.style.display = 'none';
+        });
+        saveImageBtn.addEventListener('click', () => {
+            if (currentDetailEntryId) generateImage(currentDetailEntryId);
         });
 
         // --- 功能函数 ---
-        function getEntries() {
-            return JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
-        }
+        function getEntries() { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || []; }
+        function saveEntries(entries) { localStorage.setItem(STORAGE_KEY, JSON.stringify(entries)); }
 
-        function saveEntries(entries) {
-            localStorage.setItem(STORAGE_KEY, JSON.stringify(entries));
-        }
-        
-        function loadBirthday() {
+        function updateBirthdayUI() {
             const savedBirthday = localStorage.getItem(BIRTHDAY_KEY);
             if (savedBirthday) {
                 birthdayInput.value = savedBirthday;
+                birthdayTextSpan.textContent = savedBirthday;
+                birthdaySetupDiv.classList.add('hidden');
+                birthdayDisplayDiv.classList.remove('hidden');
+                calculateDayNumber();
+            } else {
+                birthdaySetupDiv.classList.remove('hidden');
+                birthdayDisplayDiv.classList.add('hidden');
             }
         }
 
         function saveAndCalculateBirthday() {
             if (birthdayInput.value) {
                 localStorage.setItem(BIRTHDAY_KEY, birthdayInput.value);
-                calculateDayNumber();
+                updateBirthdayUI();
+            } else {
+                alert('请选择一个日期。');
             }
         }
 
@@ -431,13 +455,37 @@
             if (birthdayStr && entryDateStr) {
                 const birthday = new Date(birthdayStr);
                 const entryDate = new Date(entryDateStr);
-                // 计算天数差，+1 是因为当天也算一天
                 const diffTime = entryDate.getTime() - birthday.getTime();
                 const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24)) + 1;
-                dayOf39Input.value = diffDays > 0 ? diffDays : '请设置39岁生日';
+                dayOf39Input.value = diffDays > 0 ? diffDays : 'N/A';
             } else {
-                dayOf39Input.value = '请设置39岁生日';
+                dayOf39Input.value = 'N/A';
             }
+        }
+
+        function calculateSleepDuration() {
+            const start = sleepStartInput.value;
+            const end = sleepEndInput.value;
+            if (!start || !end) {
+                sleepDurationDisplay.textContent = '总睡眠: /';
+                return;
+            }
+            let [startH, startM] = start.split(':').map(Number);
+            let [endH, endM] = end.split(':').map(Number);
+            
+            let startMinutes = startH * 60 + startM;
+            let endMinutes = endH * 60 + endM;
+            
+            let durationMinutes;
+            if (endMinutes < startMinutes) { // 跨天
+                durationMinutes = (24 * 60 - startMinutes) + endMinutes;
+            } else {
+                durationMinutes = endMinutes - startMinutes;
+            }
+            
+            const hours = Math.floor(durationMinutes / 60);
+            const minutes = durationMinutes % 60;
+            sleepDurationDisplay.textContent = `总睡眠: ${hours}小时 ${minutes}分钟`;
         }
 
         function setTodaysDate() {
@@ -449,25 +497,59 @@
         function saveEntry(e) {
             e.preventDefault();
             const entryId = entryIdInput.value;
+
+            const exerciseData = [];
+            exerciseItems.forEach(item => {
+                const checkbox = item.querySelector('input[type="checkbox"]');
+                const durationInput = item.querySelector('.exercise-duration');
+                if (checkbox.checked) {
+                    exerciseData.push({
+                        name: checkbox.value,
+                        duration: durationInput.value || '0'
+                    });
+                }
+            });
+            if (exerciseOtherNameInput.value.trim()) {
+                exerciseData.push({
+                    name: exerciseOtherNameInput.value.trim(),
+                    duration: exerciseOtherDurationInput.value || '0'
+                });
+            }
+
             const entry = {
                 id: entryId ? parseInt(entryId) : Date.now(),
                 date: dateInput.value,
                 dayOf39: dayOf39Input.value,
                 weather: weatherInput.value,
-                mood: moodInput.value,
-                sleep: sleepInput.value,
-                exercise: exerciseInput.value,
-                mind: mindInput.value,
-                food: foodInput.value,
-                work: workInput.value,
+                mood: moodInput.value === 'custom' ? moodCustomInput.value.trim() : moodInput.value,
+                sleep: {
+                    quality: document.querySelector('.sleep-quality-btn.selected')?.dataset.value || '',
+                    start: sleepStartInput.value,
+                    end: sleepEndInput.value,
+                    duration: sleepDurationDisplay.textContent
+                },
+                exercise: exerciseData,
+                mind: {
+                    book: mindBookInput.value,
+                    podcast: mindPodcastInput.value,
+                    media: mindMediaInput.value,
+                    creation: mindCreationInput.value
+                },
+                food: {
+                    main: foodMainInput.value,
+                    snack: foodSnackInput.value,
+                    drink: foodDrinkInput.value
+                },
                 kids: kidsInput.value,
+                work: workInput.value,
                 notes: notesInput.value,
             };
 
             let entries = getEntries();
-            if (entryId) { // 更新
-                entries = entries.map(e => e.id === entry.id ? entry : e);
-            } else { // 新增
+            const existingIndex = entries.findIndex(e => e.id === entry.id);
+            if (existingIndex > -1) {
+                entries[existingIndex] = entry;
+            } else {
                 entries.push(entry);
             }
             saveEntries(entries);
@@ -477,7 +559,7 @@
         }
 
         function renderEntries() {
-            const entries = getEntries().sort((a, b) => new Date(b.date) - new Date(a.date)); // 按日期倒序
+            const entries = getEntries().sort((a, b) => new Date(b.date) - new Date(a.date));
             entriesList.innerHTML = '';
             if (entries.length === 0) {
                 entriesList.innerHTML = '<p style="text-align:center; color:#6c757d; padding: 20px;">还没有日记，开始记录你的第一篇吧！</p>';
@@ -490,14 +572,13 @@
                 card.innerHTML = `
                     <div class="entry-info">
                         <strong>${entry.date}</strong>
-                        <span>${entry.mood}</span>
-                        <span>天气: ${entry.weather || '未记录'}</span>
-                        <span>第 ${entry.dayOf39 || '?'} 天</span>
+                        <span class="day-tag">DAY ${entry.dayOf39 || '/'}</span>
+                        <span>${entry.mood || '/'}</span>
                     </div>
                     <div class="entry-actions">
-                        <button class="btn-details">详情</button>
-                        <button class="btn-edit">修改</button>
-                        <button class="btn-delete">删除</button>
+                        <button class="btn-details">View</button>
+                        <button class="btn-edit">Edit</button>
+                        <button class="btn-delete">Delete</button>
                     </div>
                 `;
                 entriesList.appendChild(card);
@@ -509,61 +590,131 @@
             if (!card) return;
             const id = parseInt(card.dataset.id);
 
-            if (e.target.classList.contains('btn-details')) {
-                showDetails(id);
-            } else if (e.target.classList.contains('btn-edit')) {
-                loadEntryForEdit(id);
-            } else if (e.target.classList.contains('btn-delete')) {
-                deleteEntry(id);
+            if (e.target.classList.contains('btn-details')) showDetails(id);
+            else if (e.target.classList.contains('btn-edit')) loadEntryForEdit(id);
+            else if (e.target.classList.contains('btn-delete')) deleteEntry(id);
+        }
+        
+        function formatExerciseData(exerciseData) {
+            if (!exerciseData || exerciseData.length === 0) {
+                return '/';
             }
+            if (typeof exerciseData === 'string') {
+                return exerciseData;
+            }
+            return exerciseData.map(ex => `${ex.name}${ex.duration && ex.duration !== '0' ? ` (${ex.duration}分钟)` : ''}`).join(', ');
         }
 
         function showDetails(id) {
-            const entries = getEntries();
-            const entry = entries.find(e => e.id === id);
+            const entry = getEntries().find(e => e.id === id);
             if (!entry) return;
+            currentDetailEntryId = id;
 
+            const p = (text) => text && text.trim() ? `<p>${text.replace(/\n/g, '<br>')}</p>` : '<p>/</p>';
+            
             modalBody.innerHTML = `
-                <h2>${entry.date} - ${entry.mood}</h2>
-                <p><strong>天气:</strong> ${entry.weather || '未记录'} | <strong>39岁的第 ${entry.dayOf39 || '?'} 天</strong></p>
-                <div class="detail-section"><h3>睡眠</h3><p>${entry.sleep.replace(/\n/g, '<br>') || '未记录'}</p></div>
-                <div class="detail-section"><h3>运动</h3><p>${entry.exercise.replace(/\n/g, '<br>') || '未记录'}</p></div>
-                <div class="detail-section"><h3>精神滋养</h3><p>${entry.mind.replace(/\n/g, '<br>') || '未记录'}</p></div>
-                <div class="detail-section"><h3>美食与味蕾</h3><p>${entry.food.replace(/\n/g, '<br>') || '未记录'}</p></div>
-                <div class="detail-section"><h3>工作与成就</h3><p>${entry.work.replace(/\n/g, '<br>') || '未记录'}</p></div>
-                <div class="detail-section"><h3>孩子与家庭</h3><p>${entry.kids.replace(/\n/g, '<br>') || '未记录'}</p></div>
-                <div class="detail-section"><h3>每日随笔</h3><p>${entry.notes.replace(/\n/g, '<br>') || '未记录'}</p></div>
+                <h2>${entry.date} - ${entry.mood || '/'}</h2>
+                <p><strong>Weather:</strong> ${entry.weather || '/'} | <strong class="day-tag" style="font-size: 1em; display: inline-block; vertical-align: middle;">DAY ${entry.dayOf39 || '/'}</strong></p>
+                
+                <div class="detail-section"><h3>SLEEP</h3><p>${entry.sleep?.quality || '/'} (${entry.sleep?.duration || '未记录时长'})</p></div>
+                
+                <div class="detail-section"><h3>SPORT</h3><p>${formatExerciseData(entry.exercise)}</p></div>
+                
+                <div class="detail-section"><h3>ENJOY</h3>
+                    <h4>📖Books</h4>${p(entry.mind?.book)}
+                    <h4>🎧Podcast</h4>${p(entry.mind?.podcast)}
+                    <h4>🎬Music/XHS</h4>${p(entry.mind?.media)}
+                    <h4>✨Creation</h4>${p(entry.mind?.creation)}
+                </div>
+                
+                <div class="detail-section"><h3>FOOD</h3>
+                    <h4>🍚Meals</h4>${p(entry.food?.main)}
+                    <h4>🍰Snacks</h4>${p(entry.food?.snack)}
+                    <h4>🍹Drinks</h4>${p(entry.food?.drink)}
+                </div>
+
+                <div class="detail-section"><h3>KID</h3>${p(entry.kids)}</div>
+                
+                <div class="detail-section"><h3>WORK</h3>${p(entry.work)}</div>
+
+                <div class="detail-section"><h3>MOMENT</h3>${p(entry.notes)}</div>
             `;
             modal.style.display = 'block';
         }
 
         function loadEntryForEdit(id) {
-            const entries = getEntries();
-            const entry = entries.find(e => e.id === id);
+            const entry = getEntries().find(e => e.id === id);
             if (!entry) return;
+            
+            clearForm();
 
             entryIdInput.value = entry.id;
             dateInput.value = entry.date;
             dayOf39Input.value = entry.dayOf39;
             weatherInput.value = entry.weather;
-            moodInput.value = entry.mood;
-            sleepInput.value = entry.sleep;
-            exerciseInput.value = entry.exercise;
-            mindInput.value = entry.mind;
-            foodInput.value = entry.food;
-            workInput.value = entry.work;
-            kidsInput.value = entry.kids;
-            notesInput.value = entry.notes;
+            
+            const moodOptions = Array.from(moodInput.options).map(o => o.value);
+            if (moodOptions.includes(entry.mood)) {
+                moodInput.value = entry.mood;
+                moodCustomInput.classList.add('hidden');
+            } else {
+                moodInput.value = 'custom';
+                moodCustomInput.value = entry.mood;
+                moodCustomInput.classList.remove('hidden');
+            }
 
-            window.scrollTo(0, 0); // 滚动到顶部
-            document.querySelector('#diary-form legend').scrollIntoView({ behavior: 'smooth' }); // 平滑滚动到表单
+            if (entry.sleep) {
+                sleepQualityBtns.forEach(btn => btn.classList.toggle('selected', btn.dataset.value === entry.sleep.quality));
+                sleepStartInput.value = entry.sleep.start || '';
+                sleepEndInput.value = entry.sleep.end || '';
+                calculateSleepDuration();
+            }
+
+            if (entry.exercise && Array.isArray(entry.exercise)) {
+                const otherExercises = [];
+                entry.exercise.forEach(ex => {
+                    let found = false;
+                    exerciseItems.forEach(item => {
+                        const checkbox = item.querySelector('input[type="checkbox"]');
+                        const durationInput = item.querySelector('.exercise-duration');
+                        if (checkbox.value === ex.name) {
+                            checkbox.checked = true;
+                            durationInput.value = ex.duration || '';
+                            found = true;
+                        }
+                    });
+                    if (!found) {
+                        otherExercises.push(ex);
+                    }
+                });
+                if (otherExercises.length > 0) {
+                    exerciseOtherNameInput.value = otherExercises.map(e => e.name).join(', ');
+                    exerciseOtherDurationInput.value = otherExercises[0]?.duration || '';
+                }
+            }
+
+            if(entry.mind) {
+                mindBookInput.value = entry.mind.book || '';
+                mindPodcastInput.value = entry.mind.podcast || '';
+                mindMediaInput.value = entry.mind.media || '';
+                mindCreationInput.value = entry.mind.creation || '';
+            }
+            if(entry.food) {
+                foodMainInput.value = entry.food.main || '';
+                foodSnackInput.value = entry.food.snack || '';
+                foodDrinkInput.value = entry.food.drink || '';
+            }
+
+            kidsInput.value = entry.kids || '';
+            workInput.value = entry.work || '';
+            notesInput.value = entry.notes || '';
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
         function deleteEntry(id) {
             if (confirm('确定要删除这篇日记吗？此操作无法撤销。')) {
-                let entries = getEntries();
-                entries = entries.filter(e => e.id !== id);
-                saveEntries(entries);
+                saveEntries(getEntries().filter(e => e.id !== id));
                 renderEntries();
                 alert('日记已删除。');
             }
@@ -572,7 +723,88 @@
         function clearForm() {
             form.reset();
             entryIdInput.value = '';
-            setTodaysDate(); // 清空后重新设置今天的日期和天数
+            moodCustomInput.classList.add('hidden');
+            sleepQualityBtns.forEach(b => b.classList.remove('selected'));
+            sleepDurationDisplay.textContent = '总睡眠: /';
+            document.querySelectorAll('.exercise-duration').forEach(input => input.value = '');
+            setTodaysDate();
+        }
+
+        async function generateImage(id) {
+            const entry = getEntries().find(e => e.id === id);
+            if (!entry) return;
+
+            const section = (title, content) => content && content.trim() && content.trim() !== '/' ? `<div class="img-section"><h4>${title}</h4><p>${content.replace(/\n/g, '<br>')}</p></div>` : '';
+
+            const exportContainer = document.getElementById('image-export-container');
+            exportContainer.innerHTML = `
+                <div class="img-header">
+                    <div class="img-day">DAY ${entry.dayOf39 || '/'}</div>
+                    <div class="img-date">${entry.date} &nbsp; | &nbsp; ${entry.mood || '/'}</div>
+                </div>
+                ${section('闪光时刻', entry.notes)}
+                ${section('睡眠', `${entry.sleep?.quality || ''} (${entry.sleep?.duration || ''})`)}
+                ${section('运动', formatExerciseData(entry.exercise))}
+                ${section('关于孩子', entry.kids)}
+                <div class="img-footer">
+                    Generated by MY 39 Personal Growth System
+                </div>
+            `;
+            
+            alert('正在生成图片，请稍候...');
+
+            try {
+                const canvas = await html2canvas(exportContainer, { scale: 2 });
+                const link = document.createElement('a');
+                link.download = `MY39_DAY${entry.dayOf39}_${entry.date}.png`;
+                link.href = canvas.toDataURL('image/png');
+                link.click();
+            } catch (error) {
+                console.error('图片生成失败:', error);
+                alert('抱歉，图片生成失败，请检查控制台获取更多信息。');
+            }
+        }
+
+        function exportToTxt() {
+            const entries = getEntries().sort((a, b) => new Date(b.date) - new Date(a.date));
+            if (entries.length === 0) {
+                alert('没有日记可以导出。');
+                return;
+            }
+
+            let fullText = "MY39 日记备份\n\n";
+            const val = (text) => text && text.trim() ? text.trim() : '/';
+
+            entries.forEach(entry => {
+                fullText += `========================================\n`;
+                fullText += `日期: ${entry.date} (DAY ${entry.dayOf39 || 'N/A'})\n`;
+                fullText += `心情: ${val(entry.mood)}\n`;
+                fullText += `Weather: ${val(entry.weather)}\n`;
+                fullText += `----------------------------------------\n`;
+                fullText += `SLEEP:\n  ${val(entry.sleep?.quality)} (${val(entry.sleep?.duration)})\n\n`;
+                fullText += `SPORTS:\n  ${formatExerciseData(entry.exercise)}\n\n`;
+                fullText += `ENJOY:\n`;
+                fullText += `  - Books: ${val(entry.mind?.book)}\n`;
+                fullText += `  - Podcast: ${val(entry.mind?.podcast)}\n`;
+                fullText += `  - Music/XHS: ${val(entry.mind?.media)}\n`;
+                fullText += `  - Creation: ${val(entry.mind?.creation)}\n\n`;
+                fullText += `FOOD:\n`;
+                fullText += `  - Meals: ${val(entry.food?.main)}\n`;
+                fullText += `  - Snacks: ${val(entry.food?.snack)}\n`;
+                fullText += `  - Drinks: ${val(entry.food?.drink)}\n\n`;
+                fullText += `KID:\n  ${val(entry.kids)}\n\n`;
+                fullText += `WORK:\n  ${val(entry.work)}\n\n`;
+                fullText += `MOMENTS:\n  ${val(entry.notes)}\n\n`;
+            });
+
+            const blob = new Blob([fullText], { type: 'text/plain;charset=utf-8;' });
+            
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = `MY39_日记备份_${new Date().toISOString().split('T')[0]}.txt`;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
         }
 
         function exportToCSV() {
@@ -582,51 +814,39 @@
                 return;
             }
 
-            const headers = ['ID', '日期', '39岁的第几天', '天气', '心情', '睡眠', '运动', '精神滋养', '美食与味蕾', '工作与成就', '孩子与家庭', '每日随笔'];
+            const headers = ['ID', '日期', 'DAY', 'Weather', '心情', '睡眠质量', '入睡时间', '醒来时间', '睡眠时长', '运动', '读书', '播客听书', '影音音乐', '奇思妙想', '三餐', '零食甜品', '饮品', '关于孩子', '工作成就', '闪光时刻'];
             const csvRows = [headers.join(',')];
 
             const escapeCSV = (str) => {
                 if (str === null || str === undefined) return '';
-                str = String(str).replace(/\n/g, ' '); // 替换换行符，避免CSV格式问题
-                // 如果字段包含逗号、双引号或换行符，则用双引号括起来
+                str = String(str).replace(/\n/g, ' ');
                 if (str.includes(',') || str.includes('"')) {
-                    // 将字段内的双引号替换为两个双引号
                     return `"${str.replace(/"/g, '""')}"`;
-                }
+             }
                 return str;
             };
 
             entries.forEach(entry => {
                 const row = [
-                    entry.id,
-                    entry.date,
-                    entry.dayOf39,
-                    entry.weather,
-                    entry.mood,
-                    entry.sleep,
-                    entry.exercise,
-                    entry.mind,
-                    entry.food,
-                    entry.work,
-                    entry.kids,
-                    entry.notes
+                    entry.id, entry.date, entry.dayOf39, entry.weather, entry.mood,
+                    entry.sleep?.quality, entry.sleep?.start, entry.sleep?.end, entry.sleep?.duration,
+                    formatExerciseData(entry.exercise),
+                    entry.mind?.book, entry.mind?.podcast, entry.mind?.media, entry.mind?.creation,
+                    entry.food?.main, entry.food?.snack, entry.food?.drink,
+                    entry.kids, entry.work, entry.notes
                 ].map(escapeCSV);
                 csvRows.push(row.join(','));
             });
 
             const csvString = csvRows.join('\n');
-            const blob = new Blob(['\uFEFF' + csvString], { type: 'text/csv;charset=utf-8;' }); // 添加 BOM 以支持中文
+            const blob = new Blob(['\uFEFF' + csvString], { type: 'text/csv;charset=utf-8;' });
             
             const link = document.createElement('a');
-            const url = URL.createObjectURL(blob);
-            link.setAttribute('href', url);
-            link.setAttribute('download', `MY39_日记备份_${new Date().toISOString().split('T')[0]}.csv`);
-            link.style.visibility = 'hidden';
+            link.href = URL.createObjectURL(blob);
+            link.download = `MY39_日记备份_${new Date().toISOString().split('T')[0]}.csv`;
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
-
-            alert('日记已成功导出！');
         }
     });
     </script>
